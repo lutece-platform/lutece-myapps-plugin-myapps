@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+	<properties>
+		<title>
+			Module des applications favorites : Guide utilisateur
+        </title>
+	</properties>
+	<body>
+
+
+		<section name="Ecran de gestion des sites myapps">
+			<subsection name="Description">
+
+				<p>
+					Apr&#232;s avoir installer le plugin myapps.Cet &#233;cran est dans l'interface d'administration et permet d'ajouter un site et ses propri&#233;t&#233;s auquel
+	    				les utilisateurs autoris&#233;s auront la possibilit&#233; de se connecter.
+						</p>
+						
+						<center><img src="images/myapps_admin_screen.jpg"  border="1" alt="" />			</center>
+            <p>	
+						Le bouton &#34;Ajouter une application&#34; permet d'ajouter une application.
+	          </p>         
+	           </subsection>	
+	           
+	           <subsection name="Ajout d'une application">
+	           	<center><img src="images/myapps_add_application_screen.jpg"  border="1" alt="" /></center>
+	   			    <p>L'ajout d'une application favorite et l'affectation les propri&#233;t&#233;s de connexion au site de l'application se font
+	   			    en utilisant l'interface au dessus.
+	   			    L'exemple concerne l'interface d'administration du site de d&#233;mo de Lut&#232;ce. Mais tous les sites n&#233;cessitant un login et un code
+	   			    d'acc&#232;s peuvent utiliser ce dispositif.
+							</p>
+							<ul>
+							    <li>Nom : Nom affich&#233; sur le portail</li>
+							    <li>URL: Url de l'application</li>
+								  <li>Description : Description affich&#233; sur le portail</li>
+								  <li>Champs Login: Champs d&#233;pendant au champ de login sur le site de l'application</li>
+								  <li>Libell&#233; du Champs Login:Libell&#233; affich&#233; sur le portail</li>
+								  <li>Champs Code d'acc&#232;s: Champs d&#233;pendant au champs de code d'acc&#232;s sur le site de l'application</li>
+								  <li>Champs suppl&#233;mentaire: Champs optionnel </li>
+							    <li>Libell&#233; du Champs suppl&#233;mentaire: Champs optionnel</li>
+							</ul>
+							<p>Le bouton &#34;Valider&#34; permet de sauvegarder cette application</p>
+						<p>Le bouton &#34;Annuler&#34; permet d'annuler l'ajout.</p>
+				
+					         
+	           </subsection>		
+		</section>
+		
+		<section name="Gestion des applications &#224; travers du portlet">
+			<subsection name="Ajout d'une application favorite">
+				<p>
+				Apr&#232;s avoir ins&#233;rer un portlet myapps, on pourra acc&#233;der &#224; la gestion des applications par chaque utilisateur 
+        		qui renseigne son identifiant et code d'acc&#232;s &#224; chacun des sites d&#233;clar&#233; dans l'interface d'administration. Ces informations sont stock&#233;es et crypt&#233;es par Lut&#232;ce.
+				Dans l'image en dessous, l'utilisateur n'a pas encore configur&#233; ses applications favorites.
+        </p>
+        <center><img src="images/myapps_portlet.jpg"  border="1" alt="" /></center>
+        <center><img src="images/myapps_front_management.jpg"  border="1" alt="" /></center>
+        
+        <p>
+        Le bouton &#34;Ajouter&#34; permet d'ins&#233;rer une application. Le bouton &#34;Ajouter&#34; permet de modifier ses login et mot de
+        passe pour acc&#232;der &#224; l'application &#34;Email&#34;. Dans l'image en dessous les donn&#233;es sont saisies &#224; travers de l'inteface
+        d'ajout d'identifiant et mot de passe.
+        </p>
+        <center><img src="images/myapps_front_management_add.jpg"  border="1" alt="" /></center>
+        </subsection>
+		    
+			<subsection name="Naviguer sans identification suppl&#233;mentaire">
+			  <center><img src="images/myapps_portlet_configured.jpg"  border="1" alt="" /></center>
+				<p>
+        Le lien &#34;Lut&#232;ce Demo Admin&#34; permet de naviguer sans identification vers 
+        l'interface admin du site de d&#233;mo de Lut&#232;ce.
+        </p>
+        </subsection>
+         </section>
+    </body>
+</document>  
+  

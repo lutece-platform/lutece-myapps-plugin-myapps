@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Lut&#232;ce">
+	
+    <body>
+        <links>
+	    <item name="FR" href="/fr/index.html" />
+	</links>
+
+        <menu name="Plugin MyApps">
+            <item name="Introduction" href="index.html"/>
+        </menu>
+        
+        <!--  
+        <menu name="User guide">
+            <item name="Myapps user guide" href="myapps-userguide.html"/>
+        </menu>
+        -->
+        
+        <menu name="Downloads" inherit="bottom">
+			<item name="Released versions" href="../../stable_builds/plugins/plugin-myapps/"/>
+			<item name="Nightly builds" href="../../nightly_builds/plugins/plugin-myapps/" />
+	    </menu>
+
+		    <menu ref="reports"/>
+        
+    </body>
+</project>

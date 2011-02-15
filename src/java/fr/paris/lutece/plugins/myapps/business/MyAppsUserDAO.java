@@ -38,7 +38,7 @@ import java.util.List;
 
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
-import fr.paris.lutece.util.crypto.CryptoUtil;
+import fr.paris.lutece.plugins.myapps.util.crypto.CryptoUtil;
 import fr.paris.lutece.util.sql.DAOUtil;
 
 

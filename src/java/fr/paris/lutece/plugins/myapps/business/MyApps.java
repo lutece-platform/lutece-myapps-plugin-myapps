@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2009, Mairie de Paris
+ * Copyright (c) 2002-2010, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,27 +33,27 @@
  */
 package fr.paris.lutece.plugins.myapps.business;
 
+import fr.paris.lutece.portal.service.rbac.RBACResource;
+
 
 /**
- * This class represents the business object MyApps
+ * 
+ * MyApps
+ * 
  */
-public class MyApps
+public abstract class MyApps implements RBACResource
 {
+    public static final String RESOURCE_TYPE = "MYAPPS";
+
     // Variables declarations
     private int _nIdApplication;
     private String _strName;
     private String _strDescription;
     private String _strUrl;
-    private String _strCode;
-    private String _strPassword;
-    private String _strData;
-    private String _strCodeHeading;
-    private String _strDataHeading;
-    private String _strIconMimeType;
-    private byte[] _strIconContent;
 
     /**
      * Returns the IdApplication
+     *
      * @return The IdApplication
      */
     public int getIdApplication(  )
@@ -63,6 +63,7 @@ public class MyApps
 
     /**
      * Sets the IdApplication
+     *
      * @param nIdApplication The IdApplication
      */
     public void setIdApplication( int nIdApplication )
@@ -72,6 +73,7 @@ public class MyApps
 
     /**
      * Returns the Name
+     *
      * @return The Name
      */
     public String getName(  )
@@ -81,6 +83,7 @@ public class MyApps
 
     /**
      * Sets the Name
+     *
      * @param strName The Name
      */
     public void setName( String strName )
@@ -90,6 +93,7 @@ public class MyApps
 
     /**
      * Returns the Description
+     *
      * @return The Description
      */
     public String getDescription(  )
@@ -99,6 +103,7 @@ public class MyApps
 
     /**
      * Sets the Description
+     *
      * @param strDescription The Description
      */
     public void setDescription( String strDescription )
@@ -108,6 +113,7 @@ public class MyApps
 
     /**
      * Returns the Url
+     *
      * @return The Url
      */
     public String getUrl(  )
@@ -117,6 +123,7 @@ public class MyApps
 
     /**
      * Sets the Url
+     *
      * @param strUrl The Url
      */
     public void setUrl( String strUrl )
@@ -125,130 +132,55 @@ public class MyApps
     }
 
     /**
-     * Returns the Code
-     * @return The Code
-     */
-    public String getCode(  )
-    {
-        return _strCode;
-    }
-
-    /**
-     * Sets the Code
-     * @param strCode The Code
-     */
-    public void setCode( String strCode )
-    {
-        _strCode = strCode;
-    }
-
-    /**
-     * Returns the Password
-     * @return The Password
-     */
-    public String getPassword(  )
-    {
-        return _strPassword;
-    }
-
-    /**
-     * Sets the Password
-     * @param strPassword The Password
-     */
-    public void setPassword( String strPassword )
-    {
-        _strPassword = strPassword;
-    }
-
-    /**
-     * Returns the Data
-     * @return The Data
-     */
-    public String getData(  )
-    {
-        return _strData;
-    }
-
-    /**
-     * Sets the Data
-     * @param strData The Data
-     */
-    public void setData( String strData )
-    {
-        _strData = strData;
-    }
-
-    /**
-     * Returns the CodeHeading
-     * @return The CodeHeading
-     */
-    public String getCodeHeading(  )
-    {
-        return _strCodeHeading;
-    }
-
-    /**
-     * Sets the CodeHeading
-     * @param strCodeHeading The CodeHeading
-     */
-    public void setCodeHeading( String strCodeHeading )
-    {
-        _strCodeHeading = strCodeHeading;
-    }
-
-    /**
-     * Returns the DataHeading
-     * @return The DataHeading
-     */
-    public String getDataHeading(  )
-    {
-        return _strDataHeading;
-    }
-
-    /**
-     * Sets the DataHeading
-     * @param strDataHeading The DataHeading
-     */
-    public void setDataHeading( String strDataHeading )
-    {
-        _strDataHeading = strDataHeading;
-    }
-
-    /**
-    * Returns the icon mime type
-    * @return The IconMimeType
-    */
-    public String getIconMimeType(  )
-    {
-        return _strIconMimeType;
-    }
-
-    /**
-     * Sets the Icon mime type
-     * @param strIconMimeType The mime type
-     */
-    public void setIconMimeType( String strIconMimeType )
-    {
-        _strIconMimeType = strIconMimeType;
-    }
-
-    /**
-     * Returns the IconContent
+     * Get the resource ID
      *
-     * @return The IconContent
+     * @return the resource ID
      */
-    public byte[] getIconContent(  )
+    public String getResourceId(  )
     {
-        return _strIconContent;
+        return String.valueOf( _nIdApplication );
     }
 
     /**
-     * Sets the IconContent
+     * Get the resource type code
      *
-     * @param strIconContent The IconContent
+     * @return the resource type code
      */
-    public void setIconContent( byte[] strIconContent )
+    public String getResourceTypeCode(  )
     {
-        _strIconContent = strIconContent;
+        return RESOURCE_TYPE;
+    }
+
+    /**
+     * Override the method equals
+     * @param o Object
+     * @return true if it is equals to the object o
+     */
+    @Override
+    public boolean equals( Object o )
+    {
+        boolean bIsEqual = false;
+
+        if ( o instanceof fr.paris.lutece.plugins.myapps.business.MyApps )
+        {
+            MyApps myApp = (MyApps) o;
+
+            if ( myApp != null )
+            {
+                bIsEqual = _nIdApplication == myApp.getIdApplication(  );
+            }
+        }
+
+        return bIsEqual;
+    }
+
+    /**
+     * Override the method hashCode
+     * @return the hashCode
+     */
+    @Override
+    public int hashCode(  )
+    {
+        return _nIdApplication;
     }
 }

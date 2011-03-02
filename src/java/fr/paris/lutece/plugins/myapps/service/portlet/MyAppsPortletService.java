@@ -31,45 +31,81 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.myapps.business.portlet;
+package fr.paris.lutece.plugins.myapps.service.portlet;
 
-import fr.paris.lutece.portal.business.portlet.IPortletInterfaceDAO;
+import fr.paris.lutece.plugins.myapps.business.portlet.MyAppsPortlet;
+import fr.paris.lutece.plugins.myapps.business.portlet.MyAppsPortletHome;
 import fr.paris.lutece.portal.business.portlet.Portlet;
+import fr.paris.lutece.portal.business.portlet.PortletHome;
 
 
 /**
- *
- * IMyAppsPortletDAO
- *
+ * MyAppsPortletService
  */
-public interface IMyAppsPortletDAO extends IPortletInterfaceDAO
+public class MyAppsPortletService
 {
-    /**
-     * Delete a record from the table
-     *
-     * @param nPortletId the Html Portlet identifier
-     */
-    void delete( int nPortletId );
+    private static MyAppsPortletService _singleton;
 
     /**
-     * Insert a new record in the table.
-     *
-     * @param portlet the object to be inserted
+     * Creates a new MyAppsPortletService object.
      */
-    void insert( Portlet portlet );
+    public MyAppsPortletService(  )
+    {
+    }
 
     /**
-     * Loads the data of portlet from the table
+     * Get the instance of the {@link MyAppsPortletService}
      *
-     * @param nPortletId The Html Portlet identifier
-     * @return the portlet
+     * @return the instance of {@link MyAppsPortletService}
      */
-    Portlet load( int nPortletId );
+    public static synchronized MyAppsPortletService getInstance(  )
+    {
+        if ( _singleton == null )
+        {
+            _singleton = new MyAppsPortletService(  );
+        }
+
+        return _singleton;
+    }
 
     /**
-     * Update the record in the table
+     * Find a {@link MyAppsPortlet} by its primary key
      *
-     * @param portlet the instance of Portlet class to be updated
+     * @param nPortletId the portlet ID
+     * @return a {@link MyAppsPortlet}
      */
-    void store( Portlet portlet );
+    public MyAppsPortlet findByPrimaryKey( int nPortletId )
+    {
+        return (MyAppsPortlet) PortletHome.findByPrimaryKey( nPortletId );
+    }
+
+    /**
+     * Create a new {@link MyAppsPortlet}
+     *
+     * @param portlet a {@link MyAppsPortlet}
+     */
+    public void create( Portlet portlet )
+    {
+        MyAppsPortletHome.getInstance(  ).create( portlet );
+    }
+
+    /**
+     * Update a new {@link MyAppsPortlet}
+     *
+     * @param portlet a {@link MyAppsPortlet}
+     */
+    public void update( Portlet portlet )
+    {
+        MyAppsPortletHome.getInstance(  ).update( portlet );
+    }
+
+    /**
+     * Create a new {@link MyAppsPortlet}
+     *
+     * @param portlet a {@link MyAppsPortlet}
+     */
+    public void remove( Portlet portlet )
+    {
+        MyAppsPortletHome.getInstance(  ).remove( portlet );
+    }
 }

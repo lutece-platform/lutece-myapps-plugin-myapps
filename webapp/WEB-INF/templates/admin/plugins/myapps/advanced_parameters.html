@@ -1,0 +1,37 @@
+<#function getChecked code reference_list>
+	<#if reference_list?has_content>
+		<#list reference_list as reference_item>
+			<#if reference_item.code = code>
+				<#if reference_item.checked>
+  					<#return "checked='checked'">
+  				<#else>
+  					<#return "">
+  				</#if>
+  			</#if>
+  		</#list>
+	</#if>
+	<#return "">
+</#function>
+
+<div class="highlight-box">
+	<form method="post" action="jsp/admin/plugins/myapps/DoModifyMyAppsParameterDefaultValues.jsp">
+		<p>
+   			<label>#i18n{myapps.manage_advanced_parameters.labelIsShownInOneList} : </label>
+  			<input class="checkbox" type="checkbox" name="is_shown_in_one_list" value="1" ${getChecked('is_shown_in_one_list',list_param_default_values)} />
+			<br />
+			<label>&nbsp;</label>
+			#i18n{myapps.manage_advanced_parameters.labelIsShownInOneListComment}
+		</p>
+		<p>
+   			<label>#i18n{myapps.manage_advanced_parameters.labelIsAscSort} : </label>
+  			<input class="checkbox" type="checkbox" name="is_asc_sort" value="1" ${getChecked('is_asc_sort',list_param_default_values)} />
+			<br />
+			<label>&nbsp;</label>
+			#i18n{myapps.manage_advanced_parameters.labelIsAscSortComment}
+		</p>
+		<br />
+		<p>
+			<input type="submit" class="button" value="#i18n{myapps.manage_advanced_parameters.buttonModify}" />
+		</p>
+	</form>
+</div>

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2009, Mairie de Paris
+ * Copyright (c) 2002-2010, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,42 +33,26 @@
  */
 package fr.paris.lutece.plugins.myapps.service;
 
-import fr.paris.lutece.plugins.myapps.business.MyAppsHome;
-import fr.paris.lutece.portal.service.image.ImageResource;
-import fr.paris.lutece.portal.service.image.ImageResourceManager;
-import fr.paris.lutece.portal.service.image.ImageResourceProvider;
-import fr.paris.lutece.portal.service.plugin.Plugin;
-import fr.paris.lutece.portal.service.plugin.PluginService;
-
 
 /**
- * This class delivers the images needed by myapps application
+ * MyAppsService
  */
-public class MyAppsService implements ImageResourceProvider
+public final class MyAppsService
 {
-    ////////////////////////////////////////////////////////////////////////////
-    // Variables
-    public static final String TEMPLATE_PAGE_ACCESS_DENIED = "/skin/site/page_access_denied.html";
-    private static final String IMAGE_RESOURCE_TYPE_ID = "myapps_icon";
-    private static MyAppsService _singleton = null;
-    private static Plugin _plugin = null;
+    private static MyAppsService _singleton;
 
     /**
-     * Creates a new PageService object.
+     * Private constructor
      */
-    public MyAppsService(  )
+    private MyAppsService(  )
     {
-        super(  );
-        init(  );
-        _singleton = this;
     }
 
-    private void init(  )
-    {
-        _plugin = PluginService.getPlugin( "myapps" );
-        ImageResourceManager.registerProvider( this );
-    }
-
+    /**
+     * Get the instance of {@link MyAppsService}
+     *
+     * @return an instance of {@link MyAppsService}
+     */
     public static synchronized MyAppsService getInstance(  )
     {
         if ( _singleton == null )
@@ -77,22 +61,5 @@ public class MyAppsService implements ImageResourceProvider
         }
 
         return _singleton;
-    }
-
-    /**
-     * Returns the resource type Id
-     * @return The resource type Id
-     */
-    public String getResourceTypeId(  )
-    {
-        return IMAGE_RESOURCE_TYPE_ID;
-    }
-
-    /**
-     * @param nIdResource The Resource identifier
-     */
-    public ImageResource getImageResource( int nMyAppsId )
-    {
-        return MyAppsHome.getImageResource( nMyAppsId, _plugin );
     }
 }

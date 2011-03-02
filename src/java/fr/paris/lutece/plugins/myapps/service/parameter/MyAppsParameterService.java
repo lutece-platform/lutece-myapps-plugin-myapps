@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2009, Mairie de Paris
+ * Copyright (c) 2002-2010, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,66 +31,76 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.myapps.business;
+package fr.paris.lutece.plugins.myapps.service.parameter;
 
-import java.util.Collection;
-
+import fr.paris.lutece.plugins.myapps.business.parameter.MyAppsParameterHome;
 import fr.paris.lutece.portal.service.plugin.Plugin;
+import fr.paris.lutece.util.ReferenceItem;
+import fr.paris.lutece.util.ReferenceList;
 
 
 /**
-* IMyAppsUserDAO Interface
-*/
-public interface IMyAppsUserDAO
+ *
+ * MyAppsParameterService
+ *
+ */
+public class MyAppsParameterService
 {
-    /**
-     * Insert a new record in the table.
-     * @param myAppsUser instance of the MyAppsUser object to inssert
-     * @param plugin the Plugin
-     */
-    void insert( MyAppsUser myAppsUser, Plugin plugin );
+    private static MyAppsParameterService _singleton;
 
     /**
-    * Update the record in the table
-    *
-    * @param myAppsUser the reference of the MyAppsUser
-    * @param plugin the Plugin
-    */
-    void store( MyAppsUser myAppsUser, Plugin plugin );
-
-    /**
-     * Delete a record from the table
+     * Return the WhatsNewParameterService singleton
      *
-     * @param nIdMyAppsUser int identifier of the MyAppsUser to delete
-     * @param plugin the Plugin
+     * @return the WhatsNewParameterService singleton
      */
-    void delete( int nIdMyAppsUser, Plugin plugin );
+    public static synchronized MyAppsParameterService getInstance(  )
+    {
+        if ( _singleton == null )
+        {
+            _singleton = new MyAppsParameterService(  );
+        }
 
-    ///////////////////////////////////////////////////////////////////////////
-    // Finders
+        return _singleton;
+    }
 
     /**
-     * load the data of the right from the table
+     * Init
+     */
+    public void init(  )
+    {
+    }
+
+    /**
+     * Load all the parameter default values
      *
-     * @param strId The identifier of the myAppsUser
-     * @param plugin the Plugin
-     * @return The instance of the myAppsUser
+     * @param plugin {@link Plugin}
+     * @return a list of {@link ReferenceItem}
      */
-    MyAppsUser load( int nKey, Plugin plugin );
+    public ReferenceList getParamDefaultValues( Plugin plugin )
+    {
+        return MyAppsParameterHome.findAll( plugin );
+    }
 
     /**
-    * Loads the data of all the myAppsUsers and returns them in form of a collection
-    *
-    * @param plugin the Plugin
-    * @return the collection which contains the data of all the myAppsUsers
-    */
-    Collection<MyAppsUser> selectMyAppsUsersList( Plugin plugin );
+     * Get the parameter default value given a parameter key
+     *
+     * @param strParameterKey the parameter key
+     * @param plugin {@link Plugin}
+     * @return a {@link ReferenceItem}
+     */
+    public ReferenceItem getParamDefaultValue( String strParameterKey, Plugin plugin )
+    {
+        return MyAppsParameterHome.findByKey( strParameterKey, plugin );
+    }
 
     /**
-    * Loads the a user credentials for a specific application
-    *
-    * @param plugin the Plugin
-    * @return the myappuser for a specific application
-    */
-    MyAppsUser getCredentials( int nApplicationId, String strUserName, Plugin plugin );
+     * Update the parameter
+     *
+     * @param param The parameter
+     * @param plugin {@link Plugin}
+     */
+    public void update( ReferenceItem param, Plugin plugin )
+    {
+        MyAppsParameterHome.update( param, plugin );
+    }
 }

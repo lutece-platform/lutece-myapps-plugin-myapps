@@ -1,8 +1,8 @@
 /*
- * Copyright (c) 2002-2009, Mairie de Paris
-* All rights reserved.
-*
-* Redistribution and use in source and binary forms, with or without
+ * Copyright (c) 2002-2010, Mairie de Paris
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
  *
@@ -35,56 +35,37 @@ package fr.paris.lutece.plugins.myapps.business;
 
 
 /**
- * This class represents the business object MyAppsUser
+ * MyAppsUser
  */
-public class MyAppsUser
+public abstract class MyAppsUser
 {
-    // Variables declarations 
-    private int _nIdUser;
+    private int _nMyAppsUserId;
     private String _strName;
     private int _nIdApplication;
-    private String _strStoredUserName;
-    private String _strStoredUserPassword;
-    private String _strStoredUserData;
 
     /**
      * Returns the IdUser
+     *
      * @return The IdUser
      */
-    public int getIdUser(  )
+    public int getMyAppsUserId(  )
     {
-        return _nIdUser;
+        return _nMyAppsUserId;
     }
 
     /**
      * Sets the IdUser
-     * @param nIdUser The IdUser
+     *
+     * @param nMyAppsUserId The IdUser
      */
-    public void setIdUser( int nIdUser )
+    public void setMyAppsUserId( int nMyAppsUserId )
     {
-        _nIdUser = nIdUser;
-    }
-
-    /**
-     * Returns the Name
-     * @return The Name
-     */
-    public String getName(  )
-    {
-        return _strName;
-    }
-
-    /**
-     * Sets the Name
-     * @param strName The Name
-     */
-    public void setName( String strName )
-    {
-        _strName = strName;
+        _nMyAppsUserId = nMyAppsUserId;
     }
 
     /**
      * Returns the IdApplication
+     * 
      * @return The IdApplication
      */
     public int getIdApplication(  )
@@ -94,6 +75,7 @@ public class MyAppsUser
 
     /**
      * Sets the IdApplication
+     * 
      * @param nIdApplication The IdApplication
      */
     public void setIdApplication( int nIdApplication )
@@ -102,56 +84,22 @@ public class MyAppsUser
     }
 
     /**
-     * Returns the StoredUserName
-     * @return The StoredUserName
+     * Returns the Name
+     * 
+     * @return The Name
      */
-    public String getStoredUserName(  )
+    public String getName(  )
     {
-        return _strStoredUserName;
+        return _strName;
     }
 
     /**
-     * Sets the StoredUserName
-     * @param strStoredUserName The StoredUserName
+     * Sets the Name
+     * 
+     * @param strName The Name
      */
-    public void setStoredUserName( String strStoredUserName )
+    public void setName( String strName )
     {
-        _strStoredUserName = strStoredUserName;
-    }
-
-    /**
-     * Returns the StoredUserPassword
-     * @return The StoredUserPassword
-     */
-    public String getStoredUserPassword(  )
-    {
-        return _strStoredUserPassword;
-    }
-
-    /**
-     * Sets the StoredUserPassword
-     * @param strStoredUserPassword The StoredUserPassword
-     */
-    public void setStoredUserPassword( String strStoredUserPassword )
-    {
-        _strStoredUserPassword = strStoredUserPassword;
-    }
-
-    /**
-     * Returns the StoredUserData
-     * @return The StoredUserData
-     */
-    public String getStoredUserData(  )
-    {
-        return _strStoredUserData;
-    }
-
-    /**
-     * Sets the StoredUserData
-     * @param strStoredUserData The StoredUserData
-     */
-    public void setStoredUserData( String strStoredUserData )
-    {
-        _strStoredUserData = strStoredUserData;
+        _strName = strName;
     }
 }

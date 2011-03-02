@@ -31,45 +31,22 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.myapps.business.portlet;
+package fr.paris.lutece.plugins.myapps.service;
 
-import fr.paris.lutece.portal.business.portlet.IPortletInterfaceDAO;
-import fr.paris.lutece.portal.business.portlet.Portlet;
+import fr.paris.lutece.portal.service.plugin.PluginDefaultImplementation;
 
 
 /**
- *
- * IMyAppsPortletDAO
- *
+ * class MyAppsPlugin
  */
-public interface IMyAppsPortletDAO extends IPortletInterfaceDAO
+public class MyAppsPlugin extends PluginDefaultImplementation
 {
-    /**
-     * Delete a record from the table
-     *
-     * @param nPortletId the Html Portlet identifier
-     */
-    void delete( int nPortletId );
+    public static final String PLUGIN_NAME = "myapps";
 
     /**
-     * Insert a new record in the table.
-     *
-     * @param portlet the object to be inserted
+     * Initialize the MyAppsPlugin
      */
-    void insert( Portlet portlet );
-
-    /**
-     * Loads the data of portlet from the table
-     *
-     * @param nPortletId The Html Portlet identifier
-     * @return the portlet
-     */
-    Portlet load( int nPortletId );
-
-    /**
-     * Update the record in the table
-     *
-     * @param portlet the instance of Portlet class to be updated
-     */
-    void store( Portlet portlet );
+    public void init(  )
+    {
+    }
 }

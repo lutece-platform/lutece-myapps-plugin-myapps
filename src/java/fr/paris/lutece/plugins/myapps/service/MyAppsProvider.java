@@ -31,45 +31,76 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.myapps.business.portlet;
+package fr.paris.lutece.plugins.myapps.service;
 
-import fr.paris.lutece.portal.business.portlet.IPortletInterfaceDAO;
-import fr.paris.lutece.portal.business.portlet.Portlet;
+import fr.paris.lutece.plugins.myapps.business.MyApps;
+import fr.paris.lutece.portal.service.security.LuteceUser;
+
+import java.util.List;
+import java.util.Locale;
 
 
 /**
  *
- * IMyAppsPortletDAO
+ * MyAppsResourceProvider
  *
  */
-public interface IMyAppsPortletDAO extends IPortletInterfaceDAO
+public interface MyAppsProvider
 {
     /**
-     * Delete a record from the table
+     * Get the plugin name
      *
-     * @param nPortletId the Html Portlet identifier
+     * @return the plugin name
      */
-    void delete( int nPortletId );
+    String getPluginName(  );
 
     /**
-     * Insert a new record in the table.
+     * Get the name of the provider
      *
-     * @param portlet the object to be inserted
+     * @return the name of the provider
      */
-    void insert( Portlet portlet );
+    String getProviderName(  );
 
     /**
-     * Loads the data of portlet from the table
+     * Get the name of the provider
      *
-     * @param nPortletId The Html Portlet identifier
-     * @return the portlet
+     * @param locale {@link Locale}
+     * @return the name of the provider
      */
-    Portlet load( int nPortletId );
+    String getProviderName( Locale locale );
 
     /**
-     * Update the record in the table
+     * Get the list of myapps that are enabled.
      *
-     * @param portlet the instance of Portlet class to be updated
+     * @param strUserName the user name
+     * @return a list of {@link MyApps}
      */
-    void store( Portlet portlet );
+    List<MyApps> getMyAppsListByUserName( String strUserName );
+
+    /**
+     * Get the resource image
+     *
+     * @param strMyAppsId the MyApps ID
+     * @return the resource image
+     */
+    String getResourceImage( String strMyAppsId );
+
+    /**
+     * Get the label for the button ManageMyApps.
+     * <br />
+     * Return an <b>EMPTY STRING</b> if you do not want to have a button.
+     *
+     * @param locale {@link Locale}
+     * @return the label
+     */
+    String getLabelManageMyApps( Locale locale );
+
+    /**
+     * Get the url for opening a myapps
+     *
+     * @param nMyAppId the myapp id
+     * @param user the current {@link LuteceUser}
+     * @return an url
+     */
+    String getUrlOpenMyApps( int nMyAppId, LuteceUser user );
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2009, Mairie de Paris
+ * Copyright (c) 2002-2010, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -34,21 +34,15 @@
 package fr.paris.lutece.plugins.myapps.business.portlet;
 
 import fr.paris.lutece.portal.business.portlet.Portlet;
-import fr.paris.lutece.portal.service.util.AppException;
 
 
 /**
- * this class provides Data Access methods for HtmlPortlet objects
+ * MyAppsPortletDAO
  */
 public final class MyAppsPortletDAO implements IMyAppsPortletDAO
 {
-    ///////////////////////////////////////////////////////////////////////////////////////
-    //Access methods to data
-
     /**
-     * Insert a new record in the table.
-     * @param portlet the object to be inserted
-     * @throws AppException
+     * {@inheritDoc}
      */
     public void insert( Portlet portlet )
     {
@@ -56,8 +50,7 @@ public final class MyAppsPortletDAO implements IMyAppsPortletDAO
     }
 
     /**
-     * Delete a record from the table
-     * @param nPortletId the Html Portlet identifier
+     * {@inheritDoc}
      */
     public void delete( int nPortletId )
     {
@@ -65,9 +58,7 @@ public final class MyAppsPortletDAO implements IMyAppsPortletDAO
     }
 
     /**
-     * loads the data of portlet from the table
-     * @param nPortletId The Html Portlet identifier
-     * @return the Html Portlet object
+     * {@inheritDoc}
      */
     public Portlet load( int nPortletId )
     {
@@ -78,8 +69,7 @@ public final class MyAppsPortletDAO implements IMyAppsPortletDAO
     }
 
     /**
-     * Update the record in the table
-     * @param portlet the instance of Portlet class to be updated
+     * {@inheritDoc}
      */
     public void store( Portlet portlet )
     {

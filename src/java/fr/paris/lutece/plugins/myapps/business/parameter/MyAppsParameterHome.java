@@ -31,45 +31,60 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.myapps.business.portlet;
+package fr.paris.lutece.plugins.myapps.business.parameter;
 
-import fr.paris.lutece.portal.business.portlet.IPortletInterfaceDAO;
-import fr.paris.lutece.portal.business.portlet.Portlet;
+import fr.paris.lutece.portal.service.plugin.Plugin;
+import fr.paris.lutece.portal.service.spring.SpringContextService;
+import fr.paris.lutece.util.ReferenceItem;
+import fr.paris.lutece.util.ReferenceList;
 
 
 /**
  *
- * IMyAppsPortletDAO
+ * MyAppsParameterHome
  *
  */
-public interface IMyAppsPortletDAO extends IPortletInterfaceDAO
+public final class MyAppsParameterHome
 {
-    /**
-     * Delete a record from the table
-     *
-     * @param nPortletId the Html Portlet identifier
-     */
-    void delete( int nPortletId );
+    // Static variable pointed at the DAO instance
+    private static IMyAppsParameterDAO _dao = (IMyAppsParameterDAO) SpringContextService.getPluginBean( "myapps",
+            "myapps.myAppsParameterDAO" );
 
     /**
-     * Insert a new record in the table.
-     *
-     * @param portlet the object to be inserted
+     * Constructor
      */
-    void insert( Portlet portlet );
+    private MyAppsParameterHome(  )
+    {
+    }
 
     /**
-     * Loads the data of portlet from the table
-     *
-     * @param nPortletId The Html Portlet identifier
-     * @return the portlet
+     * Load all the parameter default values
+     * @param plugin {@link Plugin}
+     * @return a list of ReferenceItem
      */
-    Portlet load( int nPortletId );
+    public static ReferenceList findAll( Plugin plugin )
+    {
+        return _dao.selectAll( plugin );
+    }
 
     /**
-     * Update the record in the table
-     *
-     * @param portlet the instance of Portlet class to be updated
+    * Load the parameter value
+    * @param strParameterKey the parameter key
+    * @param plugin {@link Plugin}
+    * @return The parameter value
+    */
+    public static ReferenceItem findByKey( String strParameterKey, Plugin plugin )
+    {
+        return _dao.load( strParameterKey, plugin );
+    }
+
+    /**
+     * Update the parameter
+     * @param param The parameter
+     * @param plugin {@link Plugin}
      */
-    void store( Portlet portlet );
+    public static void update( ReferenceItem param, Plugin plugin )
+    {
+        _dao.store( param, plugin );
+    }
 }

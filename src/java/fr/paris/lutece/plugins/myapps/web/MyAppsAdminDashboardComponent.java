@@ -38,66 +38,58 @@ import fr.paris.lutece.plugins.myapps.service.MyAppsPlugin;
 import fr.paris.lutece.plugins.myapps.service.MyAppsResourceIdService;
 import fr.paris.lutece.plugins.myapps.service.parameter.MyAppsParameterService;
 import fr.paris.lutece.portal.business.rbac.RBAC;
-import fr.paris.lutece.portal.service.admin.AccessDeniedException;
+import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.service.dashboard.admin.AdminDashboardComponent;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.rbac.RBACService;
-import fr.paris.lutece.portal.service.util.AppPathService;
-import fr.paris.lutece.portal.web.admin.PluginAdminPageJspBean;
-import fr.paris.lutece.util.ReferenceItem;
+import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.util.ReferenceList;
+import fr.paris.lutece.util.html.HtmlTemplate;
 
 import org.apache.commons.lang.StringUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 
 /**
  *
- * MyAppsJspBean
+ * MyAppsAdminDashboardComponent
  *
  */
-public class MyAppsJspBean extends PluginAdminPageJspBean
+public class MyAppsAdminDashboardComponent extends AdminDashboardComponent
 {
-    // CONSTANTS
-    private static final String ZERO = "0";
+    // MARKS
+    public static final String MARK_LIST_PARAM_DEFAULT_VALUES = "list_param_default_values";
 
-    // JSP
-    private static final String JSP_ADMIN_HOME = "jsp/admin/AdminMenu.jsp";
+    // TEMPLATES
+    private static final String TEMPLATE_ADMIN_DASHBOARD = "admin/plugins/myapps/myapps_admindashboard.html";
 
     /**
-     * Modify parameter default values
-     * 
-     * @param request HttpServletRequest
-     * @return JSP return
-     * @throws AccessDeniedException access denied if the user does not have the permission
+     * {@inheritDoc}
      */
-    public String doModifyMyAppsParameterDefaultValues( HttpServletRequest request )
-        throws AccessDeniedException
+    @Override
+    public String getDashboardData( AdminUser user, HttpServletRequest request )
     {
-        if ( !RBACService.isAuthorized( MyApps.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
-                    MyAppsResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, getUser(  ) ) )
+        String strHtml = StringUtils.EMPTY;
+
+        if ( RBACService.isAuthorized( MyApps.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
+                    MyAppsResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, user ) )
         {
-            throw new AccessDeniedException(  );
+            Plugin plugin = PluginService.getPlugin( MyAppsPlugin.PLUGIN_NAME );
+            ReferenceList listDefaultValues = MyAppsParameterService.getInstance(  ).getParamDefaultValues( plugin );
+
+            Map<String, Object> model = new HashMap<String, Object>(  );
+            model.put( MARK_LIST_PARAM_DEFAULT_VALUES, listDefaultValues );
+
+            HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_DASHBOARD, user.getLocale(  ), model );
+
+            strHtml = template.getHtml(  );
         }
 
-        Plugin plugin = PluginService.getPlugin( MyAppsPlugin.PLUGIN_NAME );
-
-        ReferenceList listParams = MyAppsParameterService.getInstance(  ).getParamDefaultValues( plugin );
-
-        for ( ReferenceItem param : listParams )
-        {
-            String strParamValue = request.getParameter( param.getCode(  ) );
-
-            if ( StringUtils.isBlank( strParamValue ) )
-            {
-                strParamValue = ZERO;
-            }
-
-            param.setName( strParamValue );
-            MyAppsParameterService.getInstance(  ).update( param, plugin );
-        }
-
-        return AppPathService.getBaseUrl( request ) + JSP_ADMIN_HOME;
+        return strHtml;
     }
 }

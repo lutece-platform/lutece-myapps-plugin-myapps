@@ -31,45 +31,39 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.myapps.business.portlet;
+package fr.paris.lutece.plugins.myapps.business.parameter;
 
-import fr.paris.lutece.portal.business.portlet.IPortletInterfaceDAO;
-import fr.paris.lutece.portal.business.portlet.Portlet;
+import fr.paris.lutece.portal.service.plugin.Plugin;
+import fr.paris.lutece.util.ReferenceItem;
+import fr.paris.lutece.util.ReferenceList;
 
 
 /**
  *
- * IMyAppsPortletDAO
+ * IMyAppsParameterDAO
  *
  */
-public interface IMyAppsPortletDAO extends IPortletInterfaceDAO
+public interface IMyAppsParameterDAO
 {
     /**
-     * Delete a record from the table
-     *
-     * @param nPortletId the Html Portlet identifier
-     */
-    void delete( int nPortletId );
+    * Load all the parameter default values
+    * @param plugin Plugin
+    * @return a list of ReferenceItem
+    */
+    ReferenceList selectAll( Plugin plugin );
 
     /**
-     * Insert a new record in the table.
-     *
-     * @param portlet the object to be inserted
-     */
-    void insert( Portlet portlet );
+    * Load the parameter value
+    * @param strParameterKey the parameter key
+    * @param plugin Plugin
+    * @return The parameter
+    */
+    ReferenceItem load( String strParameterKey, Plugin plugin );
 
     /**
-     * Loads the data of portlet from the table
-     *
-     * @param nPortletId The Html Portlet identifier
-     * @return the portlet
+     * Update the parameter value
+     * @param param The parameter
+     * @param plugin Plugin
      */
-    Portlet load( int nPortletId );
-
-    /**
-     * Update the record in the table
-     *
-     * @param portlet the instance of Portlet class to be updated
-     */
-    void store( Portlet portlet );
+    void store( ReferenceItem param, Plugin plugin );
 }

@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-    
-    
+
     <xsl:template match="portlet">
         <div class="portlet -lutece-border-radius append-bottom">
             <xsl:if test="not(string(display-portlet-title)='1')">
@@ -10,53 +9,39 @@
                 </h3>
             </xsl:if>
             <div class="portlet-content">
-                <strong></strong>	<xsl:apply-templates select="myapps-list" />
+                <xsl:apply-templates select="myapps-providers-list" />
             </div>
         </div>
     </xsl:template>
-    
-    
+
+    <xsl:template match="myapps-providers-list">
+    	<xsl:apply-templates select="myapps-provider" />
+    	<div class="clear"></div>
+    </xsl:template>
+
+    <xsl:template match="myapps-provider">
+    	<div class="myapps-content left">
+    		<h3><xsl:value-of disable-output-escaping="yes" select="myapps-provider-name" /></h3>
+    		<xsl:apply-templates select="myapps-list" />
+    	</div>
+    </xsl:template>
+
     <xsl:template match="myapps-list">
-        <table cellpadding="0" cellspacing="0"  width="100%">
-            <tr>
-                <td>
-                    <table>
-                        <xsl:apply-templates select="myapp" />
-                        <xsl:value-of select="message" />
-                    </table>
-                </td>
-            </tr>
-            <tr>
-                <td class="myapps-portlet">
-                    <form action="" name="XPage" target="_top">
-                        <div>
-                            <input type="hidden" name="page" value="myapps" />
-                            <xsl:text disable-output-escaping="yes"><![CDATA[<input type="submit" value="]]></xsl:text><xsl:value-of disable-output-escaping="yes" select="myapp-button" />
-                            <xsl:text disable-output-escaping="yes"><![CDATA["/>]]></xsl:text>
-                        </div>
-                    </form>
-                </td>
-            </tr>
-        </table>
+    	<ul>
+    		<xsl:apply-templates select="myapp" />
+    	</ul>
     </xsl:template>
-    
+
     <xsl:template match="myapp" >
-        <tr>
-            <td>
-                <img src="{myapp-icon}" width="32" height="32" alt="{myapp-description}"/>
-            </td>
-            <td>
-                <strong>
-                    <a href="{myapp-link}&amp;plugin_name=myapps" target="_blank">
-                        <xsl:value-of select="myapp-name" />
-                    </a>
-                </strong>
-                <br />
-                <small>
-                    <xsl:value-of select="myapp-description" />
-                </small>
-            </td>
-        </tr>
+    	<li>
+    		<img src="{myapp-icon}" width="32" height="32" alt="{myapp-description}"/>
+    		<a href="{myapp-link}&amp;plugin_name=myapps" target="_blank">
+				<b><xsl:value-of select="myapp-name" /></b>
+			</a>
+			<small>
+				<xsl:value-of select="myapp-description" />
+			</small>
+    	</li>
     </xsl:template>
-    
+
 </xsl:stylesheet>

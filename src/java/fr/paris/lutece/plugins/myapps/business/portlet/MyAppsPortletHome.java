@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2009, Mairie de Paris
+ * Copyright (c) 2002-2010, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,24 +39,22 @@ import fr.paris.lutece.portal.business.portlet.PortletTypeHome;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 
+/**
+ *
+ * MyAppsPortletHome
+ *
+ */
 public class MyAppsPortletHome extends PortletHome
 {
-    // Static variable pointed at the DAO instance
     private static IMyAppsPortletDAO _dao = (IMyAppsPortletDAO) SpringContextService.getPluginBean( "myapps",
-            "myAppsPortletDAO" );
-
-    /* This class implements the Singleton design pattern. */
-    private static MyAppsPortletHome _singleton = null;
+            "myapps.myAppsPortletDAO" );
+    private static MyAppsPortletHome _singleton;
 
     /**
      * Constructor
      */
     public MyAppsPortletHome(  )
     {
-        if ( _singleton == null )
-        {
-            _singleton = this;
-        }
     }
 
     /**

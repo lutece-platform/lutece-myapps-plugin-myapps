@@ -1,0 +1,19 @@
+<div class="span-22 prepend-1 append-1 append-bottom last">
+    <div class="portlet -lutece-border-radius">
+        <h2 class="page-title">#i18n{myapps.page_myapps.pageTitle}</h2>
+        <div class="myapps-content left">
+        	<#if myapps_list?has_content>
+        		<ul>
+	        	<#list myapps_list as myapp>
+	        		<li>
+		        		<a href="jsp/site/plugins/myapps/DoOpenMyApp.jsp?myapp_id=${myapp.idApplication}&amp;plugin_name=myapps" target="_blank">
+							${myapp.name}
+						</a>
+					</li>
+	        	</#list>
+	        	</ul>
+	        </#if>
+		</div>
+		<div class="clear">&nbsp;</div>
+	</div>
+</div>

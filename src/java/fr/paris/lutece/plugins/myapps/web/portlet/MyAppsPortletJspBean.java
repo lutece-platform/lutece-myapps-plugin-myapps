@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2009, Mairie de Paris
+ * Copyright (c) 2002-2010, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,31 +33,36 @@
  */
 package fr.paris.lutece.plugins.myapps.web.portlet;
 
-import fr.paris.lutece.plugins.myapps.business.MyApps;
-import fr.paris.lutece.plugins.myapps.business.MyAppsHome;
-import fr.paris.lutece.plugins.myapps.business.MyAppsUser;
-import fr.paris.lutece.plugins.myapps.business.MyAppsUserHome;
 import fr.paris.lutece.plugins.myapps.business.portlet.MyAppsPortlet;
-import fr.paris.lutece.plugins.myapps.business.portlet.MyAppsPortletHome;
-import fr.paris.lutece.portal.business.portlet.PortletHome;
-import fr.paris.lutece.portal.service.plugin.Plugin;
-import fr.paris.lutece.portal.service.plugin.PluginService;
+import fr.paris.lutece.plugins.myapps.service.MyAppsManager;
+import fr.paris.lutece.plugins.myapps.service.MyAppsProvider;
+import fr.paris.lutece.plugins.myapps.service.portlet.MyAppsPortletService;
+import fr.paris.lutece.portal.service.message.AdminMessage;
+import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
+import fr.paris.lutece.portal.service.security.UserNotSignedException;
+import fr.paris.lutece.portal.service.util.AppPathService;
+import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.portlet.PortletJspBean;
 import fr.paris.lutece.util.html.HtmlTemplate;
-import fr.paris.lutece.util.url.UrlItem;
+
+import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 
 
+/**
+ *
+ * MyAppsPortletJspBean
+ *
+ */
 public class MyAppsPortletJspBean extends PortletJspBean
 {
-    private static final String PARAMETER_PAGE_ID = "page_id";
-    private static final String PARAMETER_PORTLET_ID = "portlet_id";
-    private static final String PARAMETER_PORTLET_TYPE_ID = "portlet_type_id";
     private static final String PARAMETER_PLUGIN_NAME = "plugin_name";
-    private static final String PARAMETER_ID_APP = "id_app";
+    private static final String PARAMETER_MYAPP_ID = "myapp_id";
+    private static final String MESSAGE_NOT_NUMERIC = "myapps.message.notNumeric";
+    private static final String MESSAGE_ERROR = "message.error";
 
     /**
      * Returns portlet user application's creation form
@@ -67,31 +72,49 @@ public class MyAppsPortletJspBean extends PortletJspBean
      */
     public String getCreate( HttpServletRequest request )
     {
-        String strPageId = request.getParameter( PARAMETER_PAGE_ID );
-        String strPortletTypeId = request.getParameter( PARAMETER_PORTLET_TYPE_ID );
+        String strPageId = request.getParameter( Parameters.PAGE_ID );
+        String strPortletTypeId = request.getParameter( Parameters.PORTLET_TYPE_ID );
         HtmlTemplate template = getCreateTemplate( strPageId, strPortletTypeId );
 
         return template.getHtml(  );
     }
 
+    /**
+     * Do create a {@link MyAppsPortlet}
+     * 
+     * @param request {@link HttpServletRequest}
+     * @return The Jsp management URL of the process result
+     */
     public String doCreate( HttpServletRequest request )
     {
-        MyAppsPortlet portlet = new MyAppsPortlet(  );
+        String strUrl = StringUtils.EMPTY;
+        String strPageId = request.getParameter( Parameters.PAGE_ID );
 
-        // get portlet common attributes
-        String strErrorUrl = setPortletCommonData( request, portlet );
-
-        if ( strErrorUrl != null )
+        if ( StringUtils.isNotBlank( strPageId ) && StringUtils.isNumeric( strPageId ) )
         {
-            return strErrorUrl;
+            MyAppsPortlet portlet = new MyAppsPortlet(  );
+            String strErrorUrl = setPortletCommonData( request, portlet );
+
+            if ( StringUtils.isBlank( strErrorUrl ) )
+            {
+                int nIdPage = Integer.parseInt( strPageId );
+                portlet.setPageId( nIdPage );
+                MyAppsPortletService.getInstance(  ).create( portlet );
+
+                //Displays the page with the new Portlet
+                strUrl = getPageUrl( nIdPage );
+            }
+            else
+            {
+                strUrl = strErrorUrl;
+            }
+        }
+        else
+        {
+            strUrl = AdminMessageService.getMessageUrl( request, MESSAGE_NOT_NUMERIC, AdminMessage.TYPE_ERROR );
         }
 
-        int nIdPage = Integer.parseInt( request.getParameter( PARAMETER_PAGE_ID ) );
-        portlet.setPageId( nIdPage );
-        MyAppsPortletHome.getInstance(  ).create( portlet );
-
-        //Displays the page with the new Portlet
-        return getPageUrl( nIdPage );
+        return strUrl;
     }
 
     /**
@@ -102,11 +125,30 @@ public class MyAppsPortletJspBean extends PortletJspBean
      */
     public String getModify( HttpServletRequest request )
     {
-        int nPortletId = Integer.parseInt( request.getParameter( PARAMETER_PORTLET_ID ) );
-        MyAppsPortlet portlet = (MyAppsPortlet) PortletHome.findByPrimaryKey( nPortletId );
-        HtmlTemplate template = getModifyTemplate( portlet );
+        String strHtml = StringUtils.EMPTY;
+        String strPortletId = request.getParameter( Parameters.PORTLET_ID );
 
-        return template.getHtml(  );
+        if ( StringUtils.isNotBlank( strPortletId ) && StringUtils.isNumeric( strPortletId ) )
+        {
+            int nPortletId = Integer.parseInt( strPortletId );
+            MyAppsPortlet portlet = MyAppsPortletService.getInstance(  ).findByPrimaryKey( nPortletId );
+
+            if ( portlet != null )
+            {
+                HtmlTemplate template = getModifyTemplate( portlet );
+                strHtml = template.getHtml(  );
+            }
+            else
+            {
+                strHtml = AdminMessageService.getMessageUrl( request, MESSAGE_ERROR, AdminMessage.TYPE_ERROR );
+            }
+        }
+        else
+        {
+            strHtml = AdminMessageService.getMessageUrl( request, MESSAGE_NOT_NUMERIC, AdminMessage.TYPE_ERROR );
+        }
+
+        return strHtml;
     }
 
     /**
@@ -117,23 +159,43 @@ public class MyAppsPortletJspBean extends PortletJspBean
      */
     public String doModify( HttpServletRequest request )
     {
-        // Getting portlet
-        int nPortletId = Integer.parseInt( request.getParameter( PARAMETER_PORTLET_ID ) );
-        MyAppsPortlet portlet = (MyAppsPortlet) PortletHome.findByPrimaryKey( nPortletId );
+        String strUrl = StringUtils.EMPTY;
+        String strPortletId = request.getParameter( Parameters.PAGE_ID );
 
-        // get portlet common attributes
-        String strErrorUrl = setPortletCommonData( request, portlet );
-
-        if ( strErrorUrl != null )
+        if ( StringUtils.isNotBlank( strPortletId ) && StringUtils.isNumeric( strPortletId ) )
         {
-            return strErrorUrl;
+            int nPortletId = Integer.parseInt( strPortletId );
+            MyAppsPortlet portlet = MyAppsPortletService.getInstance(  ).findByPrimaryKey( nPortletId );
+
+            if ( portlet != null )
+            {
+                String strErrorUrl = setPortletCommonData( request, portlet );
+
+                if ( StringUtils.isBlank( strErrorUrl ) )
+                {
+                    int nIdPage = Integer.parseInt( strPortletId );
+                    portlet.setPageId( nIdPage );
+                    MyAppsPortletService.getInstance(  ).update( portlet );
+
+                    //Displays the page with the new Portlet
+                    strUrl = getPageUrl( portlet.getPageId(  ) );
+                }
+                else
+                {
+                    strUrl = strErrorUrl;
+                }
+            }
+            else
+            {
+                strUrl = AdminMessageService.getMessageUrl( request, MESSAGE_ERROR, AdminMessage.TYPE_ERROR );
+            }
+        }
+        else
+        {
+            strUrl = AdminMessageService.getMessageUrl( request, MESSAGE_NOT_NUMERIC, AdminMessage.TYPE_ERROR );
         }
 
-        // Modifying the portlet
-        portlet.update(  );
-
-        //Displays the page with the updated portlet
-        return getPageUrl( portlet.getPageId(  ) );
+        return strUrl;
     }
 
     /**
@@ -141,57 +203,36 @@ public class MyAppsPortletJspBean extends PortletJspBean
      *
      * @param request request
      * @return strLink application url
+     * @throws UserNotSignedException access denied if the user is not connected
      */
     public String doOpenMyApp( HttpServletRequest request )
+        throws UserNotSignedException
     {
-        String strPluginName = request.getParameter( PARAMETER_PLUGIN_NAME );
-        Plugin plugin = PluginService.getPlugin( strPluginName );
+        String strUrl = AppPathService.getBaseUrl( request );
+        LuteceUser user = SecurityService.getInstance(  ).getRemoteUser( request );
 
-        LuteceUser user = SecurityService.getInstance(  ).getRegisteredUser( request );
-
-        // Checks whether user's session is still valid.
-        if ( user == null )
+        if ( user != null )
         {
-            return "../../Portal.jsp?page=myapps&action=unselect";
+            String strPluginName = request.getParameter( PARAMETER_PLUGIN_NAME );
+            String strMyAppId = request.getParameter( PARAMETER_MYAPP_ID );
+
+            if ( StringUtils.isNotBlank( strPluginName ) && StringUtils.isNotBlank( strMyAppId ) &&
+                    StringUtils.isNumeric( strMyAppId ) )
+            {
+                int nMyAppId = Integer.parseInt( strMyAppId );
+                MyAppsProvider provider = MyAppsManager.getInstance(  ).getProvider( strPluginName );
+
+                if ( provider != null )
+                {
+                    strUrl = provider.getUrlOpenMyApps( nMyAppId, user );
+                }
+            }
+        }
+        else
+        {
+            throw new UserNotSignedException(  );
         }
 
-        String strUserName = user.getName(  );
-
-        int nIdApp = Integer.parseInt( request.getParameter( PARAMETER_ID_APP ) );
-        MyAppsUser myAppsUser = MyAppsUserHome.getCredentials( nIdApp, strUserName, plugin );
-        MyApps myapps = MyAppsHome.findByPrimaryKey( nIdApp, plugin );
-
-        //The login and the url
-        String strUrl = myapps.getUrl(  );
-        String strLoginFieldName = myapps.getCode(  );
-        String strUserLogin = myAppsUser.getStoredUserName(  );
-
-        //Password
-        String strPasswordField = myapps.getPassword(  );
-        String strUserPassword = myAppsUser.getStoredUserPassword(  );
-
-        //Extra Field
-        String strExtraField = myapps.getData(  );
-        String strExtraFieldValue = myAppsUser.getStoredUserData(  );
-        UrlItem url = new UrlItem( strUrl );
-        url.addParameter( strLoginFieldName, strUserLogin );
-        url.addParameter( strPasswordField, strUserPassword );
-
-        if ( !strExtraField.equals( null ) && !strExtraField.equals( "" ) )
-        {
-            url.addParameter( strExtraField, strExtraFieldValue );
-        }
-
-        return url.getUrl(  );
-    }
-
-    /**
-     * Returns the properties prefix used for myapps portlet and defined in lutece.properties file
-     *
-     * @return the value of the property prefix
-     */
-    public String getPropertiesPrefix(  )
-    {
-        return "portlet.myapps";
+        return strUrl;
     }
 }

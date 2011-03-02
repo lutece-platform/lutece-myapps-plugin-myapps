@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2009, Mairie de Paris
+ * Copyright (c) 2002-2010, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -34,42 +34,52 @@
 package fr.paris.lutece.plugins.myapps.business.portlet;
 
 import fr.paris.lutece.plugins.myapps.business.MyApps;
-import fr.paris.lutece.plugins.myapps.business.MyAppsHome;
-import fr.paris.lutece.plugins.myapps.service.MyAppsService;
+import fr.paris.lutece.plugins.myapps.service.MyAppsManager;
+import fr.paris.lutece.plugins.myapps.service.MyAppsProvider;
+import fr.paris.lutece.plugins.myapps.service.portlet.MyAppsPortletService;
 import fr.paris.lutece.portal.business.portlet.Portlet;
 import fr.paris.lutece.portal.service.i18n.I18nService;
-import fr.paris.lutece.portal.service.plugin.Plugin;
-import fr.paris.lutece.portal.service.plugin.PluginService;
+import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
-import fr.paris.lutece.portal.web.constants.Parameters;
+import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.util.url.UrlItem;
 import fr.paris.lutece.util.xml.XmlUtil;
+
+import org.apache.commons.lang.StringUtils;
 
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 
+/**
+ *
+ * MyAppsPortlet
+ *
+ */
 public class MyAppsPortlet extends Portlet
 {
-    private static final String TAG_APP_USER_LIST = "myapps-list";
-    private static final String TAG_APP_USER = "myapp";
-    private static final String TAG_APP_NAME = "myapp-name";
-    private static final String TAG_APP_ICON = "myapp-icon";
-    private static final String TAG_APP_DESCRIPTION = "myapp-description";
-    private static final String TAG_LINK = "myapp-link";
-    private static final String TAG_BUTTON_LABEL = "myapp-button";
-    private static final String PARAMETER_ID_APP = "id_app";
-    private static final String PROPERTY_USER_ANONYMOUS = "anonymous";
-    public static final String PROPERTY_MANAGE_MYAPPS_BUTTON_LABEL = "myapps.portlet.buttonManageMyApps";
+    // TAGS
+    private static final String TAG_MYAPPS_PROVIDERS_LIST = "myapps-providers-list";
+    private static final String TAG_MYAPPS_PROVIDER = "myapps-provider";
+    private static final String TAG_MYAPPS_PROVIDERS_NAME = "myapps-provider-name";
+    private static final String TAG_MYAPPS_LIST = "myapps-list";
+    private static final String TAG_MYAPP = "myapp";
+    private static final String TAG_MYAPP_NAME = "myapp-name";
+    private static final String TAG_MYAPP_ICON = "myapp-icon";
+    private static final String TAG_MYAPP_DESCRIPTION = "myapp-description";
+    private static final String TAG_MYAPP_LINK = "myapp-link";
+    private static final String TAG_MYAPP_BUTTON = "myapp-button";
+
+    // PARAMETERS
+    private static final String PARAMETER_MYAPP_ID = "myapp_id";
+    private static final String PARAMETER_PLUGIN_NAME = "plugin_name";
+
+    // PROPERTIES
+    private static final String PROPERTY_MANAGE_MYAPPS_BUTTON_LABEL = "myapps.portlet.buttonManageMyApps";
+
+    // JSP
     private static final String JSP_OPEN_MYAPP = "jsp/site/plugins/myapps/DoOpenMyApp.jsp";
-
-    ///////////////////////////////////////////////////////////////////////////////
-    //Variables
-    private Plugin _plugin;
-
-    // WARNING
-    private String _strPluginName = "myapps";
 
     /**
      * Constructor
@@ -86,49 +96,68 @@ public class MyAppsPortlet extends Portlet
      */
     public String getXml( HttpServletRequest request )
     {
-        String strUserName = PROPERTY_USER_ANONYMOUS;
+        String strUserName;
 
         try
         {
-            strUserName = SecurityService.getInstance(  ).getRegisteredUser( request ).getName(  );
+            LuteceUser user = SecurityService.getInstance(  ).getRemoteUser( request );
+
+            if ( user != null )
+            {
+                strUserName = user.getName(  );
+            }
+            else
+            {
+                strUserName = StringUtils.EMPTY;
+            }
+        }
+        catch ( UserNotSignedException e )
+        {
+            strUserName = StringUtils.EMPTY;
         }
 
-        catch ( NullPointerException e )
+        StringBuffer sbXml = new StringBuffer(  );
+
+        if ( StringUtils.isNotBlank( strUserName ) )
         {
-            //User is anonymous
-        }
+            List<MyAppsProvider> listProviders = MyAppsManager.getInstance(  ).getProvidersList(  );
 
-        _plugin = PluginService.getPlugin( _strPluginName );
+            XmlUtil.beginElement( sbXml, TAG_MYAPPS_PROVIDERS_LIST );
 
-        StringBuffer strXml = new StringBuffer(  );
-        strXml.append( "" );
-
-        if ( !strUserName.equalsIgnoreCase( PROPERTY_USER_ANONYMOUS ) )
-        {
-            XmlUtil.beginElement( strXml, TAG_APP_USER_LIST );
-
-            List<MyApps> listApplications = MyAppsHome.getmyAppsListByUser( strUserName, _plugin );
             String strButtonLabel = I18nService.getLocalizedString( PROPERTY_MANAGE_MYAPPS_BUTTON_LABEL,
                     request.getLocale(  ) );
 
-            for ( MyApps myapp : listApplications )
+            for ( MyAppsProvider provider : listProviders )
             {
-                XmlUtil.beginElement( strXml, TAG_APP_USER );
+                XmlUtil.beginElement( sbXml, TAG_MYAPPS_PROVIDER );
+                XmlUtil.addElement( sbXml, TAG_MYAPPS_PROVIDERS_NAME, provider.getProviderName( request.getLocale(  ) ) );
+                XmlUtil.beginElement( sbXml, TAG_MYAPPS_LIST );
 
-                String strLink = JSP_OPEN_MYAPP + "?" + PARAMETER_ID_APP + "=" + myapp.getIdApplication(  );
-                XmlUtil.addElement( strXml, TAG_APP_ICON,
-                    getResourceImagePage( Integer.toString( myapp.getIdApplication(  ) ) ) );
-                XmlUtil.addElement( strXml, TAG_APP_NAME, myapp.getName(  ) );
-                XmlUtil.addElement( strXml, TAG_APP_DESCRIPTION, myapp.getDescription(  ) );
-                XmlUtil.addElement( strXml, TAG_LINK, strLink );
-                XmlUtil.endElement( strXml, TAG_APP_USER );
+                for ( MyApps myapp : provider.getMyAppsListByUserName( strUserName ) )
+                {
+                    XmlUtil.beginElement( sbXml, TAG_MYAPP );
+
+                    UrlItem urlLink = new UrlItem( JSP_OPEN_MYAPP );
+                    urlLink.addParameter( PARAMETER_MYAPP_ID, myapp.getIdApplication(  ) );
+                    urlLink.addParameter( PARAMETER_PLUGIN_NAME, provider.getPluginName(  ) );
+                    XmlUtil.addElement( sbXml, TAG_MYAPP_ICON,
+                        provider.getResourceImage( String.valueOf( myapp.getIdApplication(  ) ) ) );
+                    XmlUtil.addElement( sbXml, TAG_MYAPP_NAME, myapp.getName(  ) );
+                    XmlUtil.addElement( sbXml, TAG_MYAPP_DESCRIPTION, myapp.getDescription(  ) );
+                    XmlUtil.addElement( sbXml, TAG_MYAPP_LINK, urlLink.getUrlWithEntity(  ) );
+                    XmlUtil.endElement( sbXml, TAG_MYAPP );
+                }
+
+                XmlUtil.addElement( sbXml, TAG_MYAPP_BUTTON, strButtonLabel );
+                XmlUtil.endElement( sbXml, TAG_MYAPPS_LIST );
+
+                XmlUtil.endElement( sbXml, TAG_MYAPPS_PROVIDER );
             }
 
-            XmlUtil.addElement( strXml, TAG_BUTTON_LABEL, strButtonLabel );
-            XmlUtil.endElement( strXml, TAG_APP_USER_LIST );
+            XmlUtil.endElement( sbXml, TAG_MYAPPS_PROVIDERS_LIST );
         }
 
-        return addPortletTags( strXml );
+        return addPortletTags( sbXml );
     }
 
     /**
@@ -147,7 +176,7 @@ public class MyAppsPortlet extends Portlet
      */
     public void update(  )
     {
-        MyAppsPortletHome.getInstance(  ).update( this );
+        MyAppsPortletService.getInstance(  ).update( this );
     }
 
     /**
@@ -155,21 +184,6 @@ public class MyAppsPortlet extends Portlet
      */
     public void remove(  )
     {
-        MyAppsPortletHome.getInstance(  ).remove( this );
-    }
-
-    /**
-     * Management of the image associated to the application
-     * @param page The MyApps Object
-     * @param strMyAppsId The myapps identifier
-     */
-    public String getResourceImagePage( String strMyAppsId )
-    {
-        String strResourceType = MyAppsService.getInstance(  ).getResourceTypeId(  );
-        UrlItem url = new UrlItem( Parameters.IMAGE_SERVLET );
-        url.addParameter( Parameters.RESOURCE_TYPE, strResourceType );
-        url.addParameter( Parameters.RESOURCE_ID, strMyAppsId );
-
-        return url.getUrlWithEntity(  );
+        MyAppsPortletService.getInstance(  ).remove( this );
     }
 }

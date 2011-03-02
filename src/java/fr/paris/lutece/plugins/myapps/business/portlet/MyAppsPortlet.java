@@ -147,13 +147,11 @@ public class MyAppsPortlet extends Portlet
                     XmlUtil.addElement( sbXml, TAG_MYAPP_LINK, urlLink.getUrlWithEntity(  ) );
                     XmlUtil.endElement( sbXml, TAG_MYAPP );
                 }
-
-                XmlUtil.addElement( sbXml, TAG_MYAPP_BUTTON, strButtonLabel );
                 XmlUtil.endElement( sbXml, TAG_MYAPPS_LIST );
 
                 XmlUtil.endElement( sbXml, TAG_MYAPPS_PROVIDER );
             }
-
+            XmlUtil.addElement( sbXml, TAG_MYAPP_BUTTON, strButtonLabel );
             XmlUtil.endElement( sbXml, TAG_MYAPPS_PROVIDERS_LIST );
         }
 

@@ -17,6 +17,12 @@
     <xsl:template match="myapps-providers-list">
     	<xsl:apply-templates select="myapps-provider" />
     	<div class="clear"></div>
+    	<div>
+    		<form method="post" action="jsp/site/Portal.jsp?page=myapps">
+    			<xsl:text disable-output-escaping="yes"><![CDATA[<input type="submit" value="]]></xsl:text><xsl:value-of disable-output-escaping="yes" select="myapp-button" />
+                <xsl:text disable-output-escaping="yes"><![CDATA["/>]]></xsl:text>
+    		</form>
+    	</div>
     </xsl:template>
 
     <xsl:template match="myapps-provider">

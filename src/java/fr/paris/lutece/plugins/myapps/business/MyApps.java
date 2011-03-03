@@ -37,9 +37,9 @@ import fr.paris.lutece.portal.service.rbac.RBACResource;
 
 
 /**
- * 
+ *
  * MyApps
- * 
+ *
  */
 public abstract class MyApps implements RBACResource
 {
@@ -50,6 +50,8 @@ public abstract class MyApps implements RBACResource
     private String _strName;
     private String _strDescription;
     private String _strUrl;
+
+    public abstract boolean hasIcon(  );
 
     /**
      * Returns the IdApplication

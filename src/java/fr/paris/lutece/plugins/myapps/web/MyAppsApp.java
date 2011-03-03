@@ -61,9 +61,9 @@ import javax.servlet.http.HttpServletRequest;
 
 
 /**
- * 
+ *
  * MyAppsApp
- * 
+ *
  */
 public class MyAppsApp implements XPageApplication
 {
@@ -89,7 +89,7 @@ public class MyAppsApp implements XPageApplication
 
     /**
      * Front Office application to manage myapps application
-     * 
+     *
      * @param request The request
      * @param nMode The mode
      * @param plugin The plugin
@@ -153,7 +153,7 @@ public class MyAppsApp implements XPageApplication
             }
             else
             {
-            	model.put( MARK_IS_ASC_SORT, isAscSort.isChecked(  ) );
+                model.put( MARK_IS_ASC_SORT, isAscSort.isChecked(  ) );
                 model.put( MARK_MYAPPS_RESOURCE_PROVIDERS_LIST, listProviders );
                 template = AppTemplateService.getTemplate( TEMPLATE_MYAPPS_IN_DIVIDED_LISTS, request.getLocale(  ),
                         model );

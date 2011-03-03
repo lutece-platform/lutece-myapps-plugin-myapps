@@ -67,7 +67,7 @@ public class MyAppsJspBean extends PluginAdminPageJspBean
 
     /**
      * Modify parameter default values
-     * 
+     *
      * @param request HttpServletRequest
      * @return JSP return
      * @throws AccessDeniedException access denied if the user does not have the permission

@@ -65,7 +65,7 @@ public abstract class MyAppsUser
 
     /**
      * Returns the IdApplication
-     * 
+     *
      * @return The IdApplication
      */
     public int getIdApplication(  )
@@ -75,7 +75,7 @@ public abstract class MyAppsUser
 
     /**
      * Sets the IdApplication
-     * 
+     *
      * @param nIdApplication The IdApplication
      */
     public void setIdApplication( int nIdApplication )
@@ -85,7 +85,7 @@ public abstract class MyAppsUser
 
     /**
      * Returns the Name
-     * 
+     *
      * @return The Name
      */
     public String getName(  )
@@ -95,7 +95,7 @@ public abstract class MyAppsUser
 
     /**
      * Sets the Name
-     * 
+     *
      * @param strName The Name
      */
     public void setName( String strName )

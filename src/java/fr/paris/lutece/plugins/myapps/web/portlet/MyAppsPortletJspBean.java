@@ -81,7 +81,7 @@ public class MyAppsPortletJspBean extends PortletJspBean
 
     /**
      * Do create a {@link MyAppsPortlet}
-     * 
+     *
      * @param request {@link HttpServletRequest}
      * @return The Jsp management URL of the process result
      */

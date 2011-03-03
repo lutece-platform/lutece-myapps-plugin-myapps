@@ -33,12 +33,6 @@
  */
 package fr.paris.lutece.plugins.myapps.business.portlet;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang.StringUtils;
-
 import fr.paris.lutece.plugins.myapps.business.MyApps;
 import fr.paris.lutece.plugins.myapps.service.MyAppsManager;
 import fr.paris.lutece.plugins.myapps.service.MyAppsPlugin;
@@ -55,6 +49,12 @@ import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.url.UrlItem;
 import fr.paris.lutece.util.xml.XmlUtil;
+
+import org.apache.commons.lang.StringUtils;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -134,7 +134,7 @@ public class MyAppsPortlet extends Portlet
                     request.getLocale(  ) );
             Plugin plugin = PluginService.getPlugin( MyAppsPlugin.PLUGIN_NAME );
             ReferenceItem isAscSort = MyAppsParameterService.getInstance(  )
-            		.getParamDefaultValue( PARAMETER_IS_ASC_SORT, plugin );
+                                                            .getParamDefaultValue( PARAMETER_IS_ASC_SORT, plugin );
 
             for ( MyAppsProvider provider : listProviders )
             {
@@ -156,10 +156,12 @@ public class MyAppsPortlet extends Portlet
                     XmlUtil.addElement( sbXml, TAG_MYAPP_LINK, urlLink.getUrlWithEntity(  ) );
                     XmlUtil.endElement( sbXml, TAG_MYAPP );
                 }
+
                 XmlUtil.endElement( sbXml, TAG_MYAPPS_LIST );
 
                 XmlUtil.endElement( sbXml, TAG_MYAPPS_PROVIDER );
             }
+
             XmlUtil.addElement( sbXml, TAG_MYAPP_BUTTON, strButtonLabel );
             XmlUtil.endElement( sbXml, TAG_MYAPPS_PROVIDERS_LIST );
         }

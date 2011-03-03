@@ -85,7 +85,7 @@ public class MyAppsResourceIdService extends ResourceIdService
 
     /**
      * Returns a list of directory resource ids
-     * 
+     *
      * @param locale The current locale
      * @return A list of resource ids
      */
@@ -96,7 +96,7 @@ public class MyAppsResourceIdService extends ResourceIdService
 
     /**
      * Returns the Title of a given resource
-     * 
+     *
      * @param strId The Id of the resource
      * @param locale The current locale
      * @return The Title of a given resource

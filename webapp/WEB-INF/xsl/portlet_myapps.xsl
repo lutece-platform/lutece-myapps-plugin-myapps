@@ -16,8 +16,7 @@
 
     <xsl:template match="myapps-providers-list">
     	<xsl:apply-templates select="myapps-provider" />
-    	<div class="clear"></div>
-    	<div>
+    	<div class="clear">
     		<form method="post" action="jsp/site/Portal.jsp?page=myapps">
     			<xsl:text disable-output-escaping="yes"><![CDATA[<input type="submit" value="]]></xsl:text><xsl:value-of disable-output-escaping="yes" select="myapp-button" />
                 <xsl:text disable-output-escaping="yes"><![CDATA["/>]]></xsl:text>
@@ -40,13 +39,15 @@
 
     <xsl:template match="myapp" >
     	<li>
-    		<img src="{myapp-icon}" width="32" height="32" alt="{myapp-description}"/>
-    		<a href="{myapp-link}&amp;plugin_name=myapps" target="_blank">
+    		<xsl:if test="string(myapp-has-icon) = '1'">
+    			<img src="{myapp-icon}" width="32" height="32" alt="{myapp-description}"/>
+    		</xsl:if>
+    		<a href="{myapp-link}" target="_blank">
 				<b><xsl:value-of select="myapp-name" /></b>
 			</a>
-			<small>
+			<span class="myapps-description">
 				<xsl:value-of select="myapp-description" />
-			</small>
+			</span>
     	</li>
     </xsl:template>
 

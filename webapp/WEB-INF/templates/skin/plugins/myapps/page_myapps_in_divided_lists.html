@@ -1,7 +1,7 @@
 <div class="span-22 prepend-1 append-1 append-bottom last">
     <div class="portlet -lutece-border-radius">
         <h2 class="page-title">#i18n{myapps.page_myapps.pageTitle}</h2>
-		<#list myapps_resource_providers_list as provider>
+		<#list myapps_providers_list as provider>
 			<div class="myapps-content left">
             	<#assign myapps_list = provider.getMyAppsListByUserName( user_name, is_asc_sort )>
             	<#assign label_manage_myapps = provider.getLabelManageMyApps( locale )>
@@ -22,15 +22,19 @@
 						</#list>
 					</ul>
             	</#if>
-            	<#if label_manage_myapps?? && label_manage_myapps != "">
+           	</div>
+		</#list>
+		<div class="clear">
+			<#list myapps_providers_list as provider>
+				<#assign label_manage_myapps = provider.getLabelManageMyApps( locale )>
+				<#if label_manage_myapps?? && label_manage_myapps != "">
 	           		<form method="post" action="jsp/site/Portal.jsp">
 	           			<input type="hidden" name="page" value="${provider.pluginName}" />
 	           			<input type="hidden" name="action" value="manage" />
 	           			<input type="submit" value="${label_manage_myapps}" class="button" />
 	           		</form>
 	           	</#if>
-           	</div>
-		</#list>
-		<div class="clear">&nbsp;</div>
+			</#list>
+		</div>
 	</div>
 </div>

@@ -44,7 +44,6 @@ import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.xpages.XPage;
 import fr.paris.lutece.portal.web.xpages.XPageApplication;
 import fr.paris.lutece.util.ReferenceItem;
@@ -72,7 +71,7 @@ public class MyAppsApp implements XPageApplication
     private static final String TEMPLATE_MYAPPS_IN_ONE_LIST = "skin/plugins/myapps/page_myapps_in_one_list.html";
 
     // MARKS
-    private static final String MARK_MYAPPS_RESOURCE_PROVIDERS_LIST = "myapps_resource_providers_list";
+    private static final String MARK_MYAPPS_PROVIDERS_LIST = "myapps_providers_list";
     private static final String MARK_USER_NAME = "user_name";
     private static final String MARK_LOCALE = "locale";
     private static final String MARK_MYAPPS_LIST = "myapps_list";
@@ -136,6 +135,7 @@ public class MyAppsApp implements XPageApplication
             Map<String, Object> model = new HashMap<String, Object>(  );
             model.put( MARK_USER_NAME, user.getName(  ) );
             model.put( MARK_LOCALE, request.getLocale(  ) );
+            model.put( MARK_MYAPPS_PROVIDERS_LIST, listProviders );
 
             // Checking if we display in one list or if we display by modules
             if ( isShownInOneList.isChecked(  ) )
@@ -154,7 +154,6 @@ public class MyAppsApp implements XPageApplication
             else
             {
                 model.put( MARK_IS_ASC_SORT, isAscSort.isChecked(  ) );
-                model.put( MARK_MYAPPS_RESOURCE_PROVIDERS_LIST, listProviders );
                 template = AppTemplateService.getTemplate( TEMPLATE_MYAPPS_IN_DIVIDED_LISTS, request.getLocale(  ),
                         model );
             }

@@ -73,9 +73,10 @@ public interface MyAppsProvider
      * Get the list of myapps that are enabled.
      *
      * @param strUserName the user name
+     * @param bIsAscSort true if it is sorted ascendly, false otherwise
      * @return a list of {@link MyApps}
      */
-    List<MyApps> getMyAppsListByUserName( String strUserName, boolean isAscSort );
+    List<MyApps> getMyAppsListByUserName( String strUserName, boolean bIsAscSort );
 
     /**
      * Get the resource image

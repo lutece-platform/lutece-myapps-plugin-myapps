@@ -5,8 +5,9 @@
         	<#if myapps_list?has_content>
         		<ul>
 	        	<#list myapps_list as myapp>
+	        		<#assign plugin_name = myapp.provider.pluginName>
 	        		<li>
-		        		<a href="jsp/site/plugins/myapps/DoOpenMyApp.jsp?myapp_id=${myapp.idApplication}&amp;plugin_name=myapps" target="_blank">
+		        		<a href="jsp/site/plugins/myapps/DoOpenMyApp.jsp?myapp_id=${myapp.idApplication}&amp;plugin_name=${plugin_name}" target="_blank">
 							${myapp.name}
 						</a>
 					</li>
@@ -14,6 +15,17 @@
 	        	</ul>
 	        </#if>
 		</div>
-		<div class="clear">&nbsp;</div>
+		<div class="clear">
+			<#list myapps_providers_list as provider>
+				<#assign label_manage_myapps = provider.getLabelManageMyApps( locale )>
+				<#if label_manage_myapps?? && label_manage_myapps != "">
+	           		<form method="post" action="jsp/site/Portal.jsp">
+	           			<input type="hidden" name="page" value="${provider.pluginName}" />
+	           			<input type="hidden" name="action" value="manage" />
+	           			<input type="submit" value="${label_manage_myapps}" class="button" />
+	           		</form>
+	           	</#if>
+			</#list>
+		</div>
 	</div>
 </div>

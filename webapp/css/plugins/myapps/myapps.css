@@ -1,10 +1,11 @@
 /* myapps.css */
 
 .myapps-content {
-	margin-top: 5px;
+	margin-top: 15px;
+	margin-right: 10px;
 }
 
-.myapps-content .left {
+.myapps-content.left {
 	float: left;
 }
 
@@ -28,6 +29,15 @@
 
 .myapps-content ul {
 	list-style-type: none;
+	margin: 0 0 1.5em;
+}
+
+.myapps-description {
+	font-size: 0.8em;
+}
+
+.portlet-content .myapps-content li {
+	padding-top: 5px;
 }
 
 .myapps-table .button {

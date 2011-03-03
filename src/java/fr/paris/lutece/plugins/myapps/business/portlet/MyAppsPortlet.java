@@ -64,6 +64,10 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class MyAppsPortlet extends Portlet
 {
+    // CONSTANTS
+    private static final String TRUE = "1";
+    private static final String FALSE = "0";
+
     // TAGS
     private static final String TAG_MYAPPS_PROVIDERS_LIST = "myapps-providers-list";
     private static final String TAG_MYAPPS_PROVIDER = "myapps-provider";
@@ -75,6 +79,7 @@ public class MyAppsPortlet extends Portlet
     private static final String TAG_MYAPP_DESCRIPTION = "myapp-description";
     private static final String TAG_MYAPP_LINK = "myapp-link";
     private static final String TAG_MYAPP_BUTTON = "myapp-button";
+    private static final String TAG_MYAPP_HAS_ICON = "myapp-has-icon";
 
     // PARAMETERS
     private static final String PARAMETER_MYAPP_ID = "myapp_id";
@@ -142,18 +147,19 @@ public class MyAppsPortlet extends Portlet
                 XmlUtil.addElement( sbXml, TAG_MYAPPS_PROVIDERS_NAME, provider.getProviderName( request.getLocale(  ) ) );
                 XmlUtil.beginElement( sbXml, TAG_MYAPPS_LIST );
 
-                for ( MyApps myapp : provider.getMyAppsListByUserName( strUserName, isAscSort.isChecked(  ) ) )
+                for ( MyApps myApp : provider.getMyAppsListByUserName( strUserName, isAscSort.isChecked(  ) ) )
                 {
                     XmlUtil.beginElement( sbXml, TAG_MYAPP );
 
                     UrlItem urlLink = new UrlItem( JSP_OPEN_MYAPP );
-                    urlLink.addParameter( PARAMETER_MYAPP_ID, myapp.getIdApplication(  ) );
+                    urlLink.addParameter( PARAMETER_MYAPP_ID, myApp.getIdApplication(  ) );
                     urlLink.addParameter( PARAMETER_PLUGIN_NAME, provider.getPluginName(  ) );
                     XmlUtil.addElement( sbXml, TAG_MYAPP_ICON,
-                        provider.getResourceImage( String.valueOf( myapp.getIdApplication(  ) ) ) );
-                    XmlUtil.addElement( sbXml, TAG_MYAPP_NAME, myapp.getName(  ) );
-                    XmlUtil.addElement( sbXml, TAG_MYAPP_DESCRIPTION, myapp.getDescription(  ) );
+                        provider.getResourceImage( String.valueOf( myApp.getIdApplication(  ) ) ) );
+                    XmlUtil.addElement( sbXml, TAG_MYAPP_NAME, myApp.getName(  ) );
+                    XmlUtil.addElement( sbXml, TAG_MYAPP_DESCRIPTION, myApp.getDescription(  ) );
                     XmlUtil.addElement( sbXml, TAG_MYAPP_LINK, urlLink.getUrlWithEntity(  ) );
+                    XmlUtil.addElement( sbXml, TAG_MYAPP_HAS_ICON, myApp.hasIcon(  ) ? TRUE : FALSE );
                     XmlUtil.endElement( sbXml, TAG_MYAPP );
                 }
 

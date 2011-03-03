@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.plugins.myapps.business;
 
+import fr.paris.lutece.plugins.myapps.service.MyAppsProvider;
 import fr.paris.lutece.portal.service.rbac.RBACResource;
 
 
@@ -51,7 +52,19 @@ public abstract class MyApps implements RBACResource
     private String _strDescription;
     private String _strUrl;
 
+    /**
+     * Check if the myApp has an icon or not
+     *
+     * @return true if it has an icon, false otherwise
+     */
     public abstract boolean hasIcon(  );
+
+    /**
+     * Get the provider that provides this MyApp
+     *
+     * @return a {@link MyAppsProvider}
+     */
+    public abstract MyAppsProvider getProvider(  );
 
     /**
      * Returns the IdApplication

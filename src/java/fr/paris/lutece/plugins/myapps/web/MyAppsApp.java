@@ -76,15 +76,16 @@ public class MyAppsApp implements XPageApplication
     private static final String MARK_USER_NAME = "user_name";
     private static final String MARK_LOCALE = "locale";
     private static final String MARK_MYAPPS_LIST = "myapps_list";
+    private static final String MARK_IS_ASC_SORT = "is_asc_sort";
 
     // PARAMETERS
     private static final String PARAMETER_IS_SHOWN_IN_ONE_LIST = "is_shown_in_one_list";
     private static final String PARAMETER_IS_ASC_SORT = "is_asc_sort";
+    private static final String PARAMETER_NAME = "name";
 
     // PROPERTIES
     private static final String PROPERTY_PAGE_TITLE = "myapps.page_myapps.pageTitle";
     private static final String PROPERTY_PAGE_PATH = "myapps.page_myapps.pagePathLabel";
-    private static final String PROPERTY_SORTED_ATTRIBUTE_NAME = "myapps.sortedAttributeName";
 
     /**
      * Front Office application to manage myapps application
@@ -143,16 +144,16 @@ public class MyAppsApp implements XPageApplication
 
                 for ( MyAppsProvider provider : listProviders )
                 {
-                    listMyApps.addAll( provider.getMyAppsListByUserName( user.getName(  ) ) );
+                    listMyApps.addAll( provider.getMyAppsListByUserName( user.getName(  ), isAscSort.isChecked(  ) ) );
                 }
 
-                String strSortedAttributeName = AppPropertiesService.getProperty( PROPERTY_SORTED_ATTRIBUTE_NAME );
-                Collections.sort( listMyApps, new AttributeComparator( strSortedAttributeName, isAscSort.isChecked(  ) ) );
+                Collections.sort( listMyApps, new AttributeComparator( PARAMETER_NAME, isAscSort.isChecked(  ) ) );
                 model.put( MARK_MYAPPS_LIST, listMyApps );
                 template = AppTemplateService.getTemplate( TEMPLATE_MYAPPS_IN_ONE_LIST, request.getLocale(  ), model );
             }
             else
             {
+            	model.put( MARK_IS_ASC_SORT, isAscSort.isChecked(  ) );
                 model.put( MARK_MYAPPS_RESOURCE_PROVIDERS_LIST, listProviders );
                 template = AppTemplateService.getTemplate( TEMPLATE_MYAPPS_IN_DIVIDED_LISTS, request.getLocale(  ),
                         model );

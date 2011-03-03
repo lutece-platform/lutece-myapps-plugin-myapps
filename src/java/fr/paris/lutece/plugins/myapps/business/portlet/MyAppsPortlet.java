@@ -33,23 +33,28 @@
  */
 package fr.paris.lutece.plugins.myapps.business.portlet;
 
-import fr.paris.lutece.plugins.myapps.business.MyApps;
-import fr.paris.lutece.plugins.myapps.service.MyAppsManager;
-import fr.paris.lutece.plugins.myapps.service.MyAppsProvider;
-import fr.paris.lutece.plugins.myapps.service.portlet.MyAppsPortletService;
-import fr.paris.lutece.portal.business.portlet.Portlet;
-import fr.paris.lutece.portal.service.i18n.I18nService;
-import fr.paris.lutece.portal.service.security.LuteceUser;
-import fr.paris.lutece.portal.service.security.SecurityService;
-import fr.paris.lutece.portal.service.security.UserNotSignedException;
-import fr.paris.lutece.util.url.UrlItem;
-import fr.paris.lutece.util.xml.XmlUtil;
-
-import org.apache.commons.lang.StringUtils;
-
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
+
+import fr.paris.lutece.plugins.myapps.business.MyApps;
+import fr.paris.lutece.plugins.myapps.service.MyAppsManager;
+import fr.paris.lutece.plugins.myapps.service.MyAppsPlugin;
+import fr.paris.lutece.plugins.myapps.service.MyAppsProvider;
+import fr.paris.lutece.plugins.myapps.service.parameter.MyAppsParameterService;
+import fr.paris.lutece.plugins.myapps.service.portlet.MyAppsPortletService;
+import fr.paris.lutece.portal.business.portlet.Portlet;
+import fr.paris.lutece.portal.service.i18n.I18nService;
+import fr.paris.lutece.portal.service.plugin.Plugin;
+import fr.paris.lutece.portal.service.plugin.PluginService;
+import fr.paris.lutece.portal.service.security.LuteceUser;
+import fr.paris.lutece.portal.service.security.SecurityService;
+import fr.paris.lutece.portal.service.security.UserNotSignedException;
+import fr.paris.lutece.util.ReferenceItem;
+import fr.paris.lutece.util.url.UrlItem;
+import fr.paris.lutece.util.xml.XmlUtil;
 
 
 /**
@@ -74,6 +79,7 @@ public class MyAppsPortlet extends Portlet
     // PARAMETERS
     private static final String PARAMETER_MYAPP_ID = "myapp_id";
     private static final String PARAMETER_PLUGIN_NAME = "plugin_name";
+    private static final String PARAMETER_IS_ASC_SORT = "is_asc_sort";
 
     // PROPERTIES
     private static final String PROPERTY_MANAGE_MYAPPS_BUTTON_LABEL = "myapps.portlet.buttonManageMyApps";
@@ -126,6 +132,9 @@ public class MyAppsPortlet extends Portlet
 
             String strButtonLabel = I18nService.getLocalizedString( PROPERTY_MANAGE_MYAPPS_BUTTON_LABEL,
                     request.getLocale(  ) );
+            Plugin plugin = PluginService.getPlugin( MyAppsPlugin.PLUGIN_NAME );
+            ReferenceItem isAscSort = MyAppsParameterService.getInstance(  )
+            		.getParamDefaultValue( PARAMETER_IS_ASC_SORT, plugin );
 
             for ( MyAppsProvider provider : listProviders )
             {
@@ -133,7 +142,7 @@ public class MyAppsPortlet extends Portlet
                 XmlUtil.addElement( sbXml, TAG_MYAPPS_PROVIDERS_NAME, provider.getProviderName( request.getLocale(  ) ) );
                 XmlUtil.beginElement( sbXml, TAG_MYAPPS_LIST );
 
-                for ( MyApps myapp : provider.getMyAppsListByUserName( strUserName ) )
+                for ( MyApps myapp : provider.getMyAppsListByUserName( strUserName, isAscSort.isChecked(  ) ) )
                 {
                     XmlUtil.beginElement( sbXml, TAG_MYAPP );
 

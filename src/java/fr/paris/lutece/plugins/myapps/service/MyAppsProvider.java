@@ -75,7 +75,7 @@ public interface MyAppsProvider
      * @param strUserName the user name
      * @return a list of {@link MyApps}
      */
-    List<MyApps> getMyAppsListByUserName( String strUserName );
+    List<MyApps> getMyAppsListByUserName( String strUserName, boolean isAscSort );
 
     /**
      * Get the resource image

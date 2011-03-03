@@ -3,7 +3,7 @@
         <h2 class="page-title">#i18n{myapps.page_myapps.pageTitle}</h2>
 		<#list myapps_resource_providers_list as provider>
 			<div class="myapps-content left">
-            	<#assign myapps_list = provider.getMyAppsListByUserName( user_name )>
+            	<#assign myapps_list = provider.getMyAppsListByUserName( user_name, is_asc_sort )>
             	<#assign label_manage_myapps = provider.getLabelManageMyApps( locale )>
             	<h3>${provider.getProviderName( locale )}</h3>
             	<#if myapps_list?has_content>

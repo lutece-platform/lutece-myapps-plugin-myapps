@@ -45,8 +45,11 @@ import fr.paris.lutece.test.LuteceTestCase;
  */
 public class MyAppsParameterTest extends LuteceTestCase
 {
-    private final static Plugin _plugin = PluginService.getPlugin( "myapps" );
+    private final Plugin _plugin = PluginService.getPlugin( "myapps-database" );
 
+    /**
+     * Test business of class fr.paris.lutece.plugins.myapps.business.MyApps
+     */
     public void testBusiness(  )
     {
         // List test

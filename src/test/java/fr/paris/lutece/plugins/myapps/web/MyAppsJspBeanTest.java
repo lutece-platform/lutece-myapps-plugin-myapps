@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2009, Mairie de Paris
+ * Copyright (c) 2002-2010, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,12 +33,17 @@
  */
 package fr.paris.lutece.plugins.myapps.web;
 
+import fr.paris.lutece.plugins.myapps.business.parameter.MyAppsParameterHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
+import fr.paris.lutece.portal.service.plugin.Plugin;
+import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.web.dashboard.AdminDashboardJspBean;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.MokeHttpServletRequest;
+import fr.paris.lutece.util.ReferenceItem;
+import fr.paris.lutece.util.ReferenceList;
 
 
 /**
@@ -48,6 +53,9 @@ import fr.paris.lutece.test.MokeHttpServletRequest;
  */
 public class MyAppsJspBeanTest extends LuteceTestCase
 {
+    private final Plugin _plugin = PluginService.getPlugin( "myapps" );
+    private final String PARAMETERVALUE = "ParameterValue";
+
     /**
      * Test of doModifyMyAppsParameterDefaultValues method of class fr.paris.lutece.plugins.myapps.web.MyAppsJspBean
      * @throws AccessDeniedException if the user has not the right
@@ -57,17 +65,28 @@ public class MyAppsJspBeanTest extends LuteceTestCase
     {
         System.out.println( "doModifyMyAppsParameterDefaultValues" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        ReferenceList listParameters = MyAppsParameterHome.findAll( _plugin );
 
-        AdminUser user = AdminUserHome.findUserByLogin( "admin" );
-        user.setRoles( AdminUserHome.getRolesListForUser( user.getUserId(  ) ) );
-        request.registerAdminUserWithRigth( user, AdminDashboardJspBean.RIGHT_MANAGE_ADMINDASHBOARD );
+        if ( !listParameters.isEmpty(  ) )
+        {
+            MokeHttpServletRequest request = new MokeHttpServletRequest(  );
 
-        MyAppsJspBean instance = new MyAppsJspBean(  );
-        instance.init( request, AdminDashboardJspBean.RIGHT_MANAGE_ADMINDASHBOARD );
+            for ( int i = 0; i < listParameters.size(  ); i++ )
+            {
+                ReferenceItem parameter = listParameters.get( i );
+                request.addMokeParameters( parameter.getCode(  ), PARAMETERVALUE + ( i + 1 ) );
+            }
 
-        String result = instance.doModifyMyAppsParameterDefaultValues( request );
+            AdminUser user = AdminUserHome.findUserByLogin( "admin" );
+            user.setRoles( AdminUserHome.getRolesListForUser( user.getUserId(  ) ) );
+            request.registerAdminUserWithRigth( user, AdminDashboardJspBean.RIGHT_MANAGE_ADMINDASHBOARD );
 
-        assertNotNull( result );
+            MyAppsJspBean instance = new MyAppsJspBean(  );
+            instance.init( request, AdminDashboardJspBean.RIGHT_MANAGE_ADMINDASHBOARD );
+
+            String result = instance.doModifyMyAppsParameterDefaultValues( request );
+
+            assertNotNull( result );
+        }
     }
 }

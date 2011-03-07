@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2009, Mairie de Paris
+ * Copyright (c) 2002-2010, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -48,7 +48,7 @@ public class MyAppsParameterTest extends LuteceTestCase
     private final Plugin _plugin = PluginService.getPlugin( "myapps-database" );
 
     /**
-     * Test business of class fr.paris.lutece.plugins.myapps.business.MyApps
+     * Test business of class fr.paris.lutece.plugins.myapps.business.MyAppsParameter
      */
     public void testBusiness(  )
     {

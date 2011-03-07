@@ -45,12 +45,13 @@ import fr.paris.lutece.test.LuteceTestCase;
  */
 public class MyAppsPortletHomeTest extends LuteceTestCase
 {
-	/**
-     * Test of getInstance method of class fr.paris.lutece.plugins.myapps.business.MyAppsPortletHome
-     */
+    /**
+    * Test of getInstance method of class fr.paris.lutece.plugins.myapps.business.MyAppsPortletHome
+    */
     public void testGetInstance(  )
     {
-    	System.out.println( "getInstance" );
+        System.out.println( "getInstance" );
+
         PortletHome portletHome = MyAppsPortletHome.getInstance(  );
         assertNotNull( portletHome );
     }
@@ -60,7 +61,8 @@ public class MyAppsPortletHomeTest extends LuteceTestCase
      */
     public void testGetPortletTypeId(  )
     {
-    	System.out.println( "getPortletTypeId" );
+        System.out.println( "getPortletTypeId" );
+
         PortletHome formPortletHome = new MyAppsPortletHome(  );
         String portletTypeId = formPortletHome.getPortletTypeId(  );
         assertNotNull( portletTypeId );
@@ -71,7 +73,8 @@ public class MyAppsPortletHomeTest extends LuteceTestCase
      */
     public void testGetDAO(  )
     {
-    	System.out.println( "getDAO" );
+        System.out.println( "getDAO" );
+
         PortletHome formPortletHome = new MyAppsPortletHome(  );
         IPortletInterfaceDAO portletDAO = formPortletHome.getDAO(  );
         assertNotNull( portletDAO );

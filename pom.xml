@@ -33,8 +33,8 @@
 
 	<properties>
 		<componentName>myapps</componentName>
-		<jiraProjectName>LUTECE</jiraProjectName>
-		<jiraComponentId>10055</jiraComponentId>
+		<jiraProjectName>MYAPPS</jiraProjectName>
+		<jiraComponentId>10179</jiraComponentId>
 	</properties>
     <scm>
         <connection>scm:svn:http://dev.lutece.paris.fr/svn/lutece/portal/trunk/plugins/authentication/plugin-myapps</connection>

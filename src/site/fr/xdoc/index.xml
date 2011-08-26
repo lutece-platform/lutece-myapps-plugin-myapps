@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document>
     <properties>
-        <title>
-           Module des applications favorites
-        </title>
+        <title>Plugin myapps</title>
     </properties>
     <body>
-	
-	    	
-    	<section name="Introduction">
+		<section name="Plugin myapps">
+			<subsection name="Introduction">
     	
     		 	<p>Ce document d&#233;crit le fonctionnement du module "MyApps".</p>
     		    	<p>Ce dernier fournit &#224; chaque utilisateur une liste de liens vers
@@ -17,9 +14,7 @@
 			chaque fois les identifiants et les mots de passe correspondant &#224; 
 			chacune des sites cible.
 			</p>
-    		
+			</subsection>
 		</section>
-    	
-
 	</body>
 </document>  

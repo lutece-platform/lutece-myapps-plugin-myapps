@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="Lut&#232;ce">
-
+<project>
 	<body>
 		<links>
 			<item name="EN" href="../index.html" />
@@ -8,17 +7,9 @@
 		<menu name="Plugin MyApps">
 			<item name="Introduction" href="index.html" />
 		</menu>
-
 		<menu name="Manuel d&#39;utilisation">
 			<item name="Interface d&#39;utilisation" href="myapps-userguide.html" />
 		</menu>
-
-		<menu name="T&#233;l&#233;chargements" inherit="bottom">
-			<item name="Versions stables" href="../../../stable_builds/plugins/plugin-myapps/"/>
-			<item name="Nightly builds" href="../../../nightly_builds/plugins/plugin-myapps/" />
-		</menu>
-
 		<menu ref="reports" />
-
 	</body>
 </project>

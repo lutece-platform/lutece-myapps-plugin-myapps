@@ -77,6 +77,24 @@ public interface MyAppsProvider
      * @return a list of {@link MyApps}
      */
     List<MyApps> getMyAppsListByUserName( String strUserName, boolean bIsAscSort );
+    /**
+     * Get the list of myapps that are enabled by category
+     *
+     * @param strCodeCategory the category
+     * @param bIsAscSort true if it is sorted ascendly, false otherwise
+     * @return a list of {@link MyApps}
+     */
+    List<MyApps> getMyAppsListByCategory( String strCodeCategory, boolean bIsAscSort );
+    /**
+     * Get the list of myapps that are enabled by user and category
+     *
+     * @param strUserName the user name
+     * @param strCodeCategory the category
+     * @param bIsAscSort true if it is sorted ascendly, false otherwise
+     * @return a list of {@link MyApps}
+     */
+    List<MyApps> getMyAppsListByUserNameAndCategory( String strUserName,String strCodeCategory, boolean bIsAscSort );
+    
 
     /**
      * Get the resource image

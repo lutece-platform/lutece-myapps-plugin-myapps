@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.plugins.myapps.business;
 
+import java.io.Serializable;
+
 import fr.paris.lutece.plugins.myapps.service.MyAppsProvider;
 import fr.paris.lutece.portal.service.rbac.RBACResource;
 
@@ -42,9 +44,14 @@ import fr.paris.lutece.portal.service.rbac.RBACResource;
  * MyApps
  *
  */
-public abstract class MyApps implements RBACResource
+public abstract class MyApps implements RBACResource,Serializable
 {
-    public static final String RESOURCE_TYPE = "MYAPPS";
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6980039470136434474L;
+
+	public static final String RESOURCE_TYPE = "MYAPPS";
 
     // Variables declarations
     private int _nIdApplication;
